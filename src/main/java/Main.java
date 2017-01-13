@@ -1,4 +1,5 @@
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 /**
  * Created by wdsand on 1/13/17.
@@ -6,8 +7,9 @@ import java.io.PrintStream;
 public class Main {
     public static void main(String[] args) {
         PrintStream printStream = new PrintStream(System.out);
-        Player player = new Player();
-        Game game = new Game(printStream,player);
+        ArrayList<String> guessesArray = new ArrayList<String>();
+        Board board = new Board(printStream, guessesArray);
+        Game game = new Game(printStream, board);
         game.startGame();
     }
 }

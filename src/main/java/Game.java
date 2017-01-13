@@ -5,23 +5,36 @@ import java.io.PrintStream;
  */
 public class Game {
     private PrintStream printStream;
-    private Player player;
+    private int turn = 1;
+    private Board board;
 
-    public Game(PrintStream printStream, Player player) {
+    public Game(PrintStream printStream, Board board) {
         this.printStream = printStream;
-        this.player = player;
+        this.board = board;
     }
 
     public void startGame() {
-        drawBoard();
+        Player player1 = new Player();
+        Player player2 = new Player();
+        turn = 1;
+        board.drawBoard();
         promptUserForGuess();
     }
 
-    public void drawBoard() {
-        printStream.println("\n1|2|3\n_ _ _ \n4|5|6\n_ _ _ \n7|8|9\n_ _ _ \n");
-    }
 
     public void promptUserForGuess() {
+
         printStream.println("\nMake a guess");
     }
+
+    public int keepTrackOfTurn(int turn) {
+        if (turn == 1){
+            turn =2;
+        }else{
+           turn = 1;
+        }
+        return turn;
+    }
+
+
 }

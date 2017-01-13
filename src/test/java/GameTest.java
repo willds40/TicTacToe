@@ -1,8 +1,8 @@
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.PrintStream;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -12,22 +12,37 @@ import static org.mockito.Mockito.verify;
  */
 public class GameTest {
 
-    @Test
-    public void shouldDrawRowsForBoard () {
-        PrintStream printStream = mock(PrintStream.class);
-        Player player = mock(Player.class);
-        Game game = new Game(printStream,player);
-        game.drawBoard();
-       verify(printStream).println("\n1|2|3\n_ _ _ \n4|5|6\n_ _ _ \n7|8|9\n_ _ _ \n");
-    }
+
 
     @Test
     public void shouldPromptPlayerforGuess(){
         PrintStream printStream = mock(PrintStream.class);
-        Player player = mock(Player.class);
-        Game game = new Game(printStream,player);
+        Board board = mock(Board.class);
+        Game game = new Game(printStream, board);
         game.promptUserForGuess();
         verify(printStream).println("\nMake a guess");
+    }
+
+    @Test
+    public void shouldCalldrawBoardMethod(){
+        Board board = mock(Board.class);
+        PrintStream printStream = mock(PrintStream.class);
+        Game game = new Game(printStream,board);
+        game.startGame();
+        verify(board).drawBoard();
+
+    }
+
+
+    @Test
+    public void shouldReturnPlayer2WhenPlayer1HasMadeAturn(){
+        PrintStream printStream = mock(PrintStream.class);
+        Player player = mock(Player.class);
+        Board board = mock(Board.class);
+        int turn = 1;
+        Game game = new Game(printStream, board);
+        game.keepTrackOfTurn(1);
+        assertEquals(2, game.keepTrackOfTurn(1));
 
     }
 
