@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 
 /**
@@ -5,35 +8,54 @@ import java.io.PrintStream;
  */
 public class Game {
     private PrintStream printStream;
-    private int turn = 1;
+    private int turn;
     private Board board;
+    private String guess;
 
     public Game(PrintStream printStream, Board board) {
         this.printStream = printStream;
         this.board = board;
     }
 
-    public void startGame() {
-        Player player1 = new Player();
-        Player player2 = new Player();
+    public void startGame() throws IOException {
         turn = 1;
         board.drawBoard();
-        promptUserForGuess();
+        playGame();
+
+    }
+    public void playGame() throws IOException {
+        promptUserForGuess(turn);
+        board.markspot(guess,turn);
+        board.drawBoard();
+        String status = board.checkForHorizontalWin(turn);
+        if (status.equals("keep playing")){
+           turn = keepTrackOfTurn(turn);
+            playGame();
+        }
     }
 
 
-    public void promptUserForGuess() {
+    public String promptUserForGuess(int turn) throws IOException {
+        String player = "";
+        if (turn ==1){
+            player = "Player 1";
+        }
+        if (turn == 2){
+            player = "Player 2";
+        }
+        printStream.printf("\n %s Pick A Number To Select Position\n",player);
+        InputStreamReader isr = new InputStreamReader(System.in);
+        BufferedReader br = new BufferedReader(isr);
+        guess = br.readLine();
 
-        printStream.println("\nMake a guess");
+        return guess;
     }
 
     public int keepTrackOfTurn(int turn) {
         if (turn == 1){
-            turn =2;
-        }else{
-           turn = 1;
+           return 2;
         }
-        return turn;
+        return 1;
     }
 
 
